@@ -8,8 +8,10 @@ function App() {
   const [speed, setSpeed] = useState(50);
   const [goldcount, setGoldCount] = useState(1);
   const [gold, setGold] = useState(100);
-  const [level, setLevel] = useState(100);
+  const [level, setLevel] = useState(1000);
   const [leverCount, setLeverCount] = useState(0);
+  const [clickCount, setClickCount] = useState(0);
+  const [needClickCount, setNeedClickCount] = useState(10);
 
   return (
     <div className="App">
@@ -23,18 +25,16 @@ function App() {
               속도 : {speedcount}
               <button
                 onClick={() => {
-                  if (speedcount < 3 && count >= speed) {
+                  if (speedcount < 5 && count >= speed) {
                     setSpeed((speed) => speed + 50);
                     setCount((count) => count - speed);
                     setSpeedCount((speedcount) => speedcount + 1);
-                  } else if (speedcount < 6 && count >= speed) {
+                    setNeedClickCount((needClickCount) => needClickCount - 1);
+                  } else if (speedcount <= 9 && count >= speed) {
                     setSpeed((speed) => speed + 100);
                     setCount((count) => count - speed);
                     setSpeedCount((speedcount) => speedcount + 1);
-                  } else if (speedcount <= 9 && count >= speed) {
-                    setSpeed((speed) => speed + 200);
-                    setCount((count) => count - speed);
-                    setSpeedCount((speedcount) => speedcount + 1);
+                    setNeedClickCount((needClickCount) => needClickCount - 1);
                   } else if (speedcount == 10) {
                     alert("최대 속도에 도달했습니다.");
                   }
@@ -61,16 +61,12 @@ function App() {
               레벨 : {leverCount}
               <button
                 onClick={() => {
-                  if (leverCount < 3 && count >= level) {
-                    setLevel((level) => level + 100);
-                    setCount((count) => count - level);
-                    setLeverCount((leverCount) => leverCount + 1);
-                  } else if (leverCount < 6 && count >= level) {
-                    setLevel((level) => level + 200);
+                  if (leverCount < 5 && count >= level) {
+                    setLevel((level) => level + 1000);
                     setCount((count) => count - level);
                     setLeverCount((leverCount) => leverCount + 1);
                   } else if (leverCount <= 9 && count >= level) {
-                    setLevel((level) => level + 400);
+                    setLevel((level) => level + 2000);
                     setCount((count) => count - level);
                     setLeverCount((leverCount) => leverCount + 1);
                   } else if (leverCount == 10) {
@@ -85,7 +81,14 @@ function App() {
         </div>
         <div
           className="clickable-div"
-          onClick={() => setCount((count) => count + goldcount)}
+          onClick={() => {
+            if (clickCount + 1 == needClickCount) {
+              setCount((count) => count + goldcount);
+              setClickCount(0);
+            } else {
+              setClickCount((clickCount) => clickCount + 1);
+            }
+          }}
         >
           <p>Click me</p>
         </div>
