@@ -8,6 +8,8 @@ function App() {
   const [speed, setSpeed] = useState(50);
   const [goldcount, setGoldCount] = useState(1);
   const [gold, setGold] = useState(100);
+  const [level, setLevel] = useState(100);
+  const [leverCount, setLeverCount] = useState(0);
 
   return (
     <div className="App">
@@ -53,7 +55,30 @@ function App() {
                 {gold}
               </button>
             </li>
-            <li>레벨</li>
+            <li>
+              레벨 : {level}
+              <button
+                onClick={() => {
+                  if (leverCount < 3 && count >= level) {
+                    setLevel((level) => level + 100);
+                    setCount((count) => count - level);
+                    setLeverCount((leverCount) => leverCount + 1);
+                  } else if (leverCount < 6 && count >= level) {
+                    setLevel((level) => level + 200);
+                    setCount((count) => count - level);
+                    setLeverCount((leverCount) => leverCount + 1);
+                  } else if (leverCount <= 9 && count >= level) {
+                    setLevel((level) => level + 400);
+                    setCount((count) => count - level);
+                    setLeverCount((leverCount) => leverCount + 1);
+                  } else if (leverCount == 10) {
+                    alert("최대 레벨에 도달했습니다.");
+                  }
+                }}
+              >
+                {level}
+              </button>
+            </li>
           </ul>
         </div>
         <div
