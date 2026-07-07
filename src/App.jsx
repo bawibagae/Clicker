@@ -47,16 +47,18 @@ function App() {
               골드 수 : {goldcount}개
               <button
                 onClick={() => {
-                  setGold((gold) => gold + 100);
-                  setGoldCount((goldcount) => goldcount + 1);
-                  setCount((count) => count - gold);
+                  if (count >= gold) {
+                    setGold((gold) => gold + 100);
+                    setGoldCount((goldcount) => goldcount + 1);
+                    setCount((count) => count - gold);
+                  }
                 }}
               >
                 {gold}
               </button>
             </li>
             <li>
-              레벨 : {levelCount}
+              레벨 : {leverCount}
               <button
                 onClick={() => {
                   if (leverCount < 3 && count >= level) {
