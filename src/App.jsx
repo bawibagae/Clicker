@@ -56,7 +56,7 @@ function App() {
               </button>
             </li>
             <li>
-              레벨 : {level}
+              레벨 : {levelCount}
               <button
                 onClick={() => {
                   if (leverCount < 3 && count >= level) {
