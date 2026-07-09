@@ -92,13 +92,6 @@ function App() {
         >
           <p>Click me</p>
         </div>
-        <div className="menu">
-          <ul>
-            <li>상점</li>
-            <li>설정</li>
-            <li>로그인</li>
-          </ul>
-        </div>
       </div>
     </div>
   );
