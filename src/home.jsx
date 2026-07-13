@@ -1,8 +1,15 @@
 import { useState } from "react";
 import axios from "axios";
+import { Link, useNavigate } from "react-router-dom";
+import Market from "./market";
+import Setting from "./setting";
+import Login from "./login";
 
 function home() {
   const [count, setCount] = useState(0);
+  const [menu, setMenu] = useState("none");
+  const navigate = useNavigate();
+  const [bar, setBar] = useState(0);
   const [speedcount, setSpeedCount] = useState(0);
   const [speed, setSpeed] = useState(50);
   const [goldcount, setGoldCount] = useState(1);
@@ -17,79 +24,54 @@ function home() {
       <div className="header">
         <p>Count: {count}</p>
       </div>
+      <div className="bar">
+        <div className="play-bar" style={{ width: `${bar}%` }}></div>
+      </div>
       <div className="main">
         <div className="market">
-          <ul>
-            <li>
-              속도 : {speedcount}
-              <button
-                onClick={() => {
-                  if (speedcount < 5 && count >= speed) {
-                    setSpeed((speed) => speed + 50);
-                    setCount((count) => count - speed);
-                    setSpeedCount((speedcount) => speedcount + 1);
-                    setNeedClickCount((needClickCount) => needClickCount - 1);
-                  } else if (speedcount <= 9 && count >= speed) {
-                    setSpeed((speed) => speed + 100);
-                    setCount((count) => count - speed);
-                    setSpeedCount((speedcount) => speedcount + 1);
-                    setNeedClickCount((needClickCount) => needClickCount - 1);
-                  } else if (speedcount == 10) {
-                    alert("최대 속도에 도달했습니다.");
-                  }
-                }}
-              >
-                {speed}
-              </button>
-            </li>
-            <li>
-              골드 수 : {goldcount}개
-              <button
-                onClick={() => {
-                  if (count >= gold) {
-                    setGold((gold) => gold + 100);
-                    setGoldCount((goldcount) => goldcount + 1);
-                    setCount((count) => count - gold);
-                  }
-                }}
-              >
-                {gold}
-              </button>
-            </li>
-            <li>
-              레벨 : {leverCount}
-              <button
-                onClick={() => {
-                  if (leverCount < 5 && count >= level) {
-                    setLevel((level) => level + 1000);
-                    setCount((count) => count - level);
-                    setLeverCount((leverCount) => leverCount + 1);
-                  } else if (leverCount <= 9 && count >= level) {
-                    setLevel((level) => level + 2000);
-                    setCount((count) => count - level);
-                    setLeverCount((leverCount) => leverCount + 1);
-                  } else if (leverCount == 10) {
-                    alert("최대 레벨에 도달했습니다.");
-                  }
-                }}
-              >
-                {level}
-              </button>
-            </li>
-          </ul>
+          {menu === "market" && <Market />}
+          {menu === "setting" && <Setting />}
         </div>
         <div
           className="clickable-div"
           onClick={() => {
+            setBar((bar) => Math.min(bar + 100 / needClickCount, 100));
+
             if (clickCount + 1 == needClickCount) {
               setCount((count) => count + goldcount);
               setClickCount(0);
+              setBar(0);
             } else {
               setClickCount((clickCount) => clickCount + 1);
             }
           }}
         >
           <p>Click me</p>
+        </div>
+        <div className="menu">
+          <ul>
+            <li>
+              <button
+                onClick={() => {
+                  setMenu("market");
+                }}
+              >
+                마켓
+              </button>
+            </li>
+            <li>
+              <button
+                onClick={() => {
+                  setMenu("setting");
+                }}
+              >
+                설정
+              </button>
+            </li>
+            <li>
+              <button onClick={() => navigate("/login")}>로그인</button>
+            </li>
+          </ul>
         </div>
       </div>
     </div>
